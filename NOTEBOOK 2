@@ -1,0 +1,225 @@
+								EJERCICIO 3
+
+1)SELECT title FROM film LIMIT 20;
++---------------------+
+| title               |
++---------------------+
+| ACADEMY DINOSAUR    |
+| ACE GOLDFINGER      |
+| ADAPTATION HOLES    |
+| AFFAIR PREJUDICE    |
+| AFRICAN EGG         |
+| AGENT TRUMAN        |
+| AIRPLANE SIERRA     |
+| AIRPORT POLLOCK     |
+| ALABAMA DEVIL       |
+| ALADDIN CALENDAR    |
+| ALAMO VIDEOTAPE     |
+| ALASKA PHANTOM      |
+| ALI FOREVER         |
+| ALICE FANTASIA      |
+| ALIEN CENTER        |
+| ALLEY EVOLUTION     |
+| ALONE TRIP          |
+| ALTER VICTORY       |
+| AMADEUS HOLY        |
+| AMELIE HELLFIGHTERS |
++---------------------+
+
+2)SELECT DISTINCT release_year FROM film;
++--------------+
+| release_year |
++--------------+
+|         2006 |
++--------------+
+
+3)SELECT title,rental_duration FROM film WHERE rental_duration>4 LIMIT 10;
++------------------+-----------------+
+| title            | rental_duration |
++------------------+-----------------+
+| ACADEMY DINOSAUR |               6 |
+| ADAPTATION HOLES |               7 |
+| AFFAIR PREJUDICE |               5 |
+| AFRICAN EGG      |               6 |
+| AIRPLANE SIERRA  |               6 |
+| AIRPORT POLLOCK  |               6 |
+| ALADDIN CALENDAR |               6 |
+| ALAMO VIDEOTAPE  |               6 |
+| ALASKA PHANTOM   |               6 |
+| ALICE FANTASIA   |               6 |
++------------------+-----------------+
+
+4)SELECT customer_id,rental_id,amount,payment_date FROM payment WHERE payment_date BETWEEN "2005-07-01" AND "2005-08-01" LIMIT 10;
++-------------+-----------+--------+---------------------+
+| customer_id | rental_id | amount | payment_date        |
++-------------+-----------+--------+---------------------+
+|           1 |      4526 |   5.99 | 2005-07-08 03:17:05 |
+|           1 |      4611 |   5.99 | 2005-07-08 07:33:56 |
+|           1 |      5244 |   4.99 | 2005-07-09 13:24:07 |
+|           1 |      5326 |   4.99 | 2005-07-09 16:38:01 |
+|           1 |      6163 |   7.99 | 2005-07-11 10:13:46 |
+|           1 |      7273 |   2.99 | 2005-07-27 11:31:22 |
+|           1 |      7841 |   4.99 | 2005-07-28 09:04:45 |
+|           1 |      8033 |   4.99 | 2005-07-28 16:18:23 |
+|           1 |      8074 |   0.99 | 2005-07-28 17:33:39 |
+|           1 |      8116 |   0.99 | 2005-07-28 19:20:07 |
++-------------+-----------+--------+---------------------+
+
+							EJERCICIO 4
+
+
+1)SELECT count(*) FROM customer; 
++----------+
+| count(*) |
++----------+
+|      599 |
++----------+
+
+2)SELECT count(*) FROM rental GROUP BY customer_id LIMIT 10;
++----------+
+| count(*) |
++----------+
+|       32 |
+|       27 |
+|       26 |
+|       22 |
+|       38 |
+|       28 |
+|       33 |
+|       24 |
+|       23 |
+|       25 |
++----------+
+
+3)SELECT MAX(total) FROM (SELECT customer_id,count(*) as total FROM rental GROUP BY customer_id) as t1;
++------------+
+| MAX(total) |
++------------+
+|         46 |
++------------+
+El dato 46, representa la mayor cantidad de rentas que se realizo por un cliente, guardando esta informacion en una tabla t1
+
+4)
+
+5)SELECT staff_id, sum(amount) FROM payment GROUP BY staff_id;
++----------+-------------+
+| staff_id | sum(amount) |
++----------+-------------+
+|        1 |    33489.47 |
+|        2 |    33927.04 |
++----------+-------------+
+
+6)SELECT staff_id, SUM(amount) FROM payment WHERE payment_date BETWEEN "2005-08-23 00:00:00" AND "2005-08-23 23:59:59" GROUP BY staff_id ASC LIMIT 1;
++----------+-------------+
+| staff_id | SUM(amount) |
++----------+-------------+
+|        1 |     1391.69 |
++----------+-------------+
+
+
+						EJERCICIO 5
+
+1)SELECT film.title,language.name FROM film INNER JOIN language ON film.language_id=language.language_id LIMIT 10;
+
++------------------+---------+
+| title            | name    |
++------------------+---------+
+| ACADEMY DINOSAUR | English |
+| ACE GOLDFINGER   | English |
+| ADAPTATION HOLES | English |
+| AFFAIR PREJUDICE | English |
+| AFRICAN EGG      | English |
+| AGENT TRUMAN     | English |
+| AIRPLANE SIERRA  | English |
+| AIRPORT POLLOCK  | English |
+| ALABAMA DEVIL    | English |
+| ALADDIN CALENDAR | English |
++------------------+---------+
+
+2)SELECT customer.first_name,customer.last_name,film.title FROM customer INNER JOIN rental ON customer.customer_id=rental.customer_id INNER JOIN inventory ON inventory.inventory_id=rental.inventory_id INNER JOIN film ON inventory.film_id=film.film_id WHERE film.title="CHICAGO NORTH";
++------------+-----------+---------------+
+| first_name | last_name | title         |
++------------+-----------+---------------+
+| ARNOLD     | HAVENS    | CHICAGO NORTH |
+| PENNY      | NEAL      | CHICAGO NORTH |
+| MARGIE     | WADE      | CHICAGO NORTH |
+| ALVIN      | DELOACH   | CHICAGO NORTH |
+| CAROLE     | BARNETT   | CHICAGO NORTH |
+| ALVIN      | DELOACH   | CHICAGO NORTH |
+| KATIE      | ELLIOTT   | CHICAGO NORTH |
+| RAMONA     | HALE      | CHICAGO NORTH |
+| ADRIAN     | CLARY     | CHICAGO NORTH |
+| TED        | BREAUX    | CHICAGO NORTH |
+| DALE       | RATCLIFF  | CHICAGO NORTH |
+| CRAIG      | MORRELL   | CHICAGO NORTH |
+| BRITTANY   | RILEY     | CHICAGO NORTH |
+| ANNIE      | RUSSELL   | CHICAGO NORTH |
+| JUAN       | FRALEY    | CHICAGO NORTH |
+| ERIK       | GUILLEN   | CHICAGO NORTH |
++------------+-----------+---------------+
+
+3)SELECT customer.first_name,customer.last_name,city.city FROM city INNER JOIN address ON city.city_id=address.city_id INNER JOIN customer ON customer.address_id=address.address_id LIMIT 10;
++------------+-----------+----------------+
+| first_name | last_name | city           |
++------------+-----------+----------------+
+| MARY       | SMITH     | Sasebo         |
+| PATRICIA   | JOHNSON   | San Bernardino |
+| LINDA      | WILLIAMS  | Athenai        |
+| BARBARA    | JONES     | Myingyan       |
+| ELIZABETH  | BROWN     | Nantou         |
+| JENNIFER   | DAVIS     | Laredo         |
+| MARIA      | MILLER    | Kragujevac     |
+| SUSAN      | WILSON    | Hamilton       |
+| MARGARET   | MOORE     | Masqat         |
+| DOROTHY    | TAYLOR    | Esfahan        |
++------------+-----------+----------------+
+
+4)SELECT film.title,count(rental.rental_id) FROM rental INNER JOIN inventory on rental.inventory_id=inventory.inventory_id INNER JOIN film on inventory.film_id=film.film_id GROUP BY film.title LIMIT 10;
+
++------------------+-------------------------+
+| title            | count(rental.rental_id) |
++------------------+-------------------------+
+| ACADEMY DINOSAUR |                      23 |
+| ACE GOLDFINGER   |                       7 |
+| ADAPTATION HOLES |                      12 |
+| AFFAIR PREJUDICE |                      23 |
+| AFRICAN EGG      |                      12 |
+| AGENT TRUMAN     |                      21 |
+| AIRPLANE SIERRA  |                      15 |
+| AIRPORT POLLOCK  |                      18 |
+| ALABAMA DEVIL    |                      12 |
+| ALADDIN CALENDAR |                      23 |
++------------------+-------------------------+
+
+
+
+5)SELECT film.title FROM film INNER JOIN inventory ON film.film_id=inventory.film_id INNER JOIN rental ON inventory.inventory_id=rental.inventory_id INNER JOIN payment ON rental.rental_id=payment.rental_id GROUP BY film.title ORDER BY sum(payment.amount) DESC LIMIT 1;
++------------------+
+| title            |
++------------------+
+| TELEGRAPH VOYAGE |
++------------------+
+
+6)SELECT customer.first_name, customer.last_name,sum(payment.amount) FROM customer INNER JOIN payment ON customer.customer_id=payment.customer_id WHERE payment.amount > 10 GROUP BY customer.customer_id LIMIT 10;
+
+| first_name | last_name | sum(payment.amount) |
++------------+-----------+---------------------+
+| PATRICIA   | JOHNSON   |               10.99 |
+| LINDA      | WILLIAMS  |               10.99 |
+| NANCY      | THOMAS    |               10.99 |
+| KAREN      | JACKSON   |               11.99 |
+| MICHELLE   | CLARK     |               10.99 |
+| ANGELA     | HERNANDEZ |               10.99 |
+| ANNA       | HILL      |               10.99 |
+| JANET      | PHILLIPS  |               10.99 |
+| JOYCE      | EDWARDS   |               10.99 |
+| DIANE      | COLLINS   |               10.99 |
++------------+-----------+---------------------+
+
+
+
+
+
+
+
+
